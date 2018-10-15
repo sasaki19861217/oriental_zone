@@ -1,0 +1,77 @@
+<!--INC_F'template_head.txt'-->
+<link rel="stylesheet" href="/css/cal.css">
+<!--INC_F'kotobuki_calendar.txt'-->
+
+  <!--カレンダー機能 Ajaxで動くよ-->
+  <section id="kotobuki_calendar-section">
+    <div id="calendar"></div>
+  </section>
+
+<script>
+function toMoment(yyyymmdd){
+  yyyymmdd = yyyymmdd.replace(/-/g,'');
+  var yyyy = yyyymmdd.substr(0,4);
+  var mm   = yyyymmdd.substr(4,2);
+  var dd   = yyyymmdd.substr(6,2);
+  var yyyy_mm_dd = yyyy + "-" + mm + "-" + dd;
+  return yyyy_mm_dd;
+}
+var calendar_start_date = "[%calendar_start_date||tdate||date%]"; // YYYYMMDD
+var flag_next1 = "[%flag_next1%]"; // 来月購入済み=1
+var flag_next2 = "[%flag_next2%]"; // 再来月購入済み=1
+var date_next1 = "[%date_next1%]"; // 来月の日付 YYYYMMDD
+var date_next2 = "[%date_next2%]"; // 再来月の日付 YYYYMMDD
+var package_next1 = "[%package_next1%]"; // 来月のパッケージID
+var package_next2 = "[%package_next2%]"; // 再来月のパッケージID
+var calendar_prev_date = "[%calendar_prev_date%]"; // 前月 YYYYMMDD
+var calendar_next_date = "[%calendar_next_date%]"; // 来月 YYYYMMDD
+
+var calData = [
+  [%FOREACH r IN shuku_data_list %]
+  {
+    "title": "[%r.date.substr(0,4)%]-[%r.date.substr(4,2)%]-[%r.date.substr(6,2)%]",
+    "sanku_icon_id": "[%r.sanku_icon_id%]",
+    "shuku_id": "[%r.shuku_id%]",
+    "start": "[%r.date.substr(0,4)%]-[%r.date.substr(4,2)%]-[%r.date.substr(6,2)%]",
+    [%IF r.kikkyou_id%]"kikkyou_id": [%r.kikkyou_id%],[%END%]
+    [%IF r.manoweek_id%]"manoweek_id": [%r.manoweek_id%],[%END-%]
+    "unki_id": "[%r.unki_id%]",
+    "unkicolor_id": "[%r.unkicolor_id%]"
+  }[%IF !loop.last;',';END%]
+  [%END%]
+]
+  var calendar = $('#calendar');
+  calendar.attr('data-calData', JSON.stringify(calData));
+  var today = new Date();
+  var now = today.getFullYear()+
+      ( "0"+( today.getMonth()+1 ) ).slice(-2)+
+      ( "0"+today.getDate() ).slice(-2);
+</script>
+
+  <!--基本占断機能-->
+  <section id="kotobuki_uranai-section">
+    <h2 class="kotobuki-banner kotobuki-banner__basic">寿鑑定</h2>
+    <div class="kotobuki-basic__list">
+      <ul class="list-group">
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9001">あなたの寿タイプ</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9002">あなたの恋愛と結婚</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9003">あなたの運命の人</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9004">あの人の寿タイプ</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9005">あの人の恋愛と結婚</a></li>
+        <!-- <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9001"><CTAG mode="menu" type="name" id="9001"></a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9002"><CTAG mode="menu" type="name" id="9002"></a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9003"><CTAG mode="menu" type="name" id="9003"></a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9004"><CTAG mode="menu" type="name" id="9004"></a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9005"><CTAG mode="menu" type="name" id="9005"></a></li> -->
+      </ul>
+    </div>
+  </section>
+
+  <!--個別課金 寿ゾーン package_id:3000番代-->
+  <section id="kotobuki_kobetsu-section">
+    <div>
+      <CTAG mode="kobetsu" type="random" kind="kotobuki" pattern="2" count="2" except-buy-package="1" range-type="1" template="CTAG/kobetsu_random.xml.tmpl">
+    </div>
+  </section>
+
+<!--INC_F'template_foot.txt'-->

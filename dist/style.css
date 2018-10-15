@@ -1,3 +1,32 @@
 h1 {
   color: #ff0; }
 
+.kotobuki-banner {
+  font-size: 20px;
+  color: #FE6C72;
+  background-color: #fff;
+  padding: 8px;
+  margin-left: -12px;
+  margin-right: -12px; }
+
+.kotobuki-basic__list ul.list-group li a::before {
+  content: none; }
+
+.kotobuki-basic__list ul.list-group li a::after {
+  position: absolute;
+  top: 25%;
+  right: 10px;
+  display: block;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 12px solid #7F7F7F;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-radius: 0;
+  -webkit-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+          transform: rotate(0deg);
+  background-color: transparent;
+  margin-top: 0; }
+
