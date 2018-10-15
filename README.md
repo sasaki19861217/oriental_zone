@@ -1,1 +1,5 @@
-# oriental_zone
+# default-env
+
+yarn
+
+yarn watch
