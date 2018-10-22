@@ -1,5 +1,11 @@
 <!--INC_F'template_head.txt'-->
 <link rel="stylesheet" href="/css/cal.css">
+
+
+<h2 class="kotobuki-banner kotobuki-banner__basic">寿カレンダー</h2>
+
+<!--INC_F'kotobuki_calendar_test.txt'-->
+
 <!--INC_F'kotobuki_calendar.txt'-->
 
   <!--カレンダー機能 Ajaxで動くよ-->
@@ -27,16 +33,11 @@ var calendar_prev_date = "[%calendar_prev_date%]"; // 前月 YYYYMMDD
 var calendar_next_date = "[%calendar_next_date%]"; // 来月 YYYYMMDD
 
 var calData = [
-  [%FOREACH r IN shuku_data_list %]
+  [%FOREACH r IN results %]
   {
-    "title": "[%r.date.substr(0,4)%]-[%r.date.substr(4,2)%]-[%r.date.substr(6,2)%]",
-    "sanku_icon_id": "[%r.sanku_icon_id%]",
-    "shuku_id": "[%r.shuku_id%]",
-    "start": "[%r.date.substr(0,4)%]-[%r.date.substr(4,2)%]-[%r.date.substr(6,2)%]",
-    [%IF r.kikkyou_id%]"kikkyou_id": [%r.kikkyou_id%],[%END%]
-    [%IF r.manoweek_id%]"manoweek_id": [%r.manoweek_id%],[%END-%]
-    "unki_id": "[%r.unki_id%]",
-    "unkicolor_id": "[%r.unkicolor_id%]"
+    "date": "[%r.date%]",
+    "image1": "[%r.image1%]",
+    "image2": "[%r.image2%]",
   }[%IF !loop.last;',';END%]
   [%END%]
 ]
@@ -53,11 +54,11 @@ var calData = [
     <h2 class="kotobuki-banner kotobuki-banner__basic">寿鑑定</h2>
     <div class="kotobuki-basic__list">
       <ul class="list-group">
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9001&<!--DEF_P-->">あなたの寿タイプ</a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9002&<!--DEF_P-->">あなたの恋愛と結婚</a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9003&<!--DEF_P-->">あなたの運命の人</a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9004&<!--DEF_P-->">あの人の寿タイプ</a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9005&<!--DEF_P-->">あの人の恋愛と結婚</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9001&<!--DEF_P-->">寿キャラで占うあなたの基本性格</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9002&<!--DEF_P-->">寿キャラで占うあなたの恋愛と結婚</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9003&<!--DEF_P-->">寿キャラで占うあなたの運命の人</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9004&<!--DEF_P-->">寿キャラで占うあの人の基本性格</a></li>
+        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9005&<!--DEF_P-->">寿キャラで占うあの人の恋愛と結婚</a></li>
         <!-- <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9001"><CTAG mode="menu" type="name" id="9001"></a></li>
         <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9002"><CTAG mode="menu" type="name" id="9002"></a></li>
         <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9003"><CTAG mode="menu" type="name" id="9003"></a></li>
@@ -65,13 +66,19 @@ var calData = [
         <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9005"><CTAG mode="menu" type="name" id="9005"></a></li> -->
       </ul>
     </div>
+    <div class="cc-btn-active">
+      <a href="t.cgi?t=m/kotobuki/list&<!--DEF_P-->">寿鑑定メニュー一覧</a>
+    </div>
   </section>
 
+<h2 class="kotobuki-banner kotobuki-banner__basic">寿特別鑑定</h2>
   <!--個別課金 寿ゾーン package_id:3000番代-->
   <section id="kotobuki_kobetsu-section">
     <div>
-      <CTAG mode="kobetsu" type="random" kind="kotobuki" pattern="2" count="2" except-buy-package="1" range-type="1" template="CTAG/kobetsu_random.xml.tmpl">
+      <CTAG mode="kobetsu" type="random" count="2" template="CTAG/kobetsu_kotobuki_random.xml.tmpl" include-package-range="3000-3999">
     </div>
   </section>
+
+<h2><a href="/t.cgi?t=m/kobetsu/kotobuki/list&<!--DEF_P-->">個別課金リスト</a></h2>
 
 <!--INC_F'template_foot.txt'-->

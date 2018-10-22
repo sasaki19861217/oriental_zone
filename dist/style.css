@@ -1,7 +1,7 @@
 .kotobuki-banner {
   font-size: 20px;
   color: #FE6C72;
-  background-color: #fff;
+  background-color: #FFF9F1;
   padding: 8px;
   margin-left: -12px;
   margin-right: -12px; }
@@ -205,4 +205,8 @@ p.anniv {
 .list:nth-child(35) p.date,
 .list:nth-child(42) p.date {
   color: #3333ff; }
+
+[class^="m-kotobuki"] body {
+  background-image: url(/image/kotobuki/bg.sp.480.png);
+  background-size: 18.2%; }
 
