@@ -1,0 +1,48 @@
+<!--INC_F'template_head.txt'-->
+[%listpage_path = "m/kobetsu/kotobuki/list"%]
+[%bp = t %]
+[%np = "m/kobetsu/kotobuki/month/result"%]
+<div class="content-body">
+  <h3><CTAG mode="menu" type="name" id="[%menu_id%]"></h3>
+
+  <div class="result-main">
+    <h3 class="cc-sub-title"><span>占う相手を選んでください。</span></h3>
+      [% IF friend > 0 %]
+      <form action="/t.cgi" class="form-horizontal">
+        <input type="hidden" name="t" value="m/kobetsu/kotobuki/month/result">
+        <input type="hidden" name="menu_id" value="[% menu_id %]">
+        <input type="hidden" name="package_id" value="[% package_id %]">
+        <!--DEF_F-->
+        <div class="form-group">
+            <div class="col-xs-12">
+              <select name="fid" class="form-control">
+                [% FOREACH f=friend_list %]
+                  <option value="[% f.fid %]"[%' selected ' IF loop.first%]>[% f.name %]</option>
+                [%END-%]
+              </select>
+            </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-12">
+            <button type="submit" class="btn btn-block btn-primary">
+              占う
+            </button>
+          </div>
+        </div>
+    </form>
+    [%ELSE%]
+    <p class="content-text">
+      このメニューを占うにはお友達のプロフィール登録が必要です。現在登録されているお友達はいません。
+    </p>
+    [%END-%]
+     <p class="content-text">現在の友達の登録数は<strong>[%friend%]人</strong>です。あと<strong>[%limit - friend%]人</strong>登録できます。</p>
+    [%IF  friend <= limit%]
+    <a href="t.cgi?t=m/account/other/form&bp=[%bp%]&np=[%np%][%IF menu_id%]&menu_id=[%menu_id%][%END-%][%IF package_id%]&package_id=[%package_id%][%END-%]&<!--DEF_P-->" class="btn btn-primary btn-block">
+      新規友達登録
+    </a>
+    [%END-%]
+
+  </div>
+
+</div>
+<!--INC_F'template_foot.txt'-->

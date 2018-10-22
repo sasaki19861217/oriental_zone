@@ -1,0 +1,31 @@
+<!--INC_F'template_head.txt'-->
+[%listpage_path = "false"%]
+
+  <div class="content-head">
+    <h2 class="cc-title"><CTAG mode="menu" type="name" id="[% menu_id %]"></h2>
+  </div>
+
+  <div class="content-body">
+
+    <div class="kotobuki-type c">
+      <img class="cc-w60" src="/image/rn/site/layout/chara/<CTAG mode="user" type="id" kind="shuku" cond="02">.240.sp.480.png">
+    </div>
+
+    <p class="cc-result-discription"><!--text--></p>
+
+    [%UNLESS menu_id == 9003 %]
+    [%IF menu_id == 9001%]
+    [%friend_menuid = 9004%]
+    [%ELSIF menu_id == 9002%]
+    [%friend_menuid = 9005%]
+    [%END%]
+    [%np = t%]
+    [%bp = t%]
+    <h3 class="cc-sub-title"><span>‘¼‚Ìl‚ğè‚¤</span></h3>
+    <!--INC_F'selfid2.txt'-->
+    [%END%]
+
+  </div>
+
+<!--INC_F'mark_sp_second.txt'-->
+<!--INC_F'template_foot.txt'-->
