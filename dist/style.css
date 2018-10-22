@@ -1,10 +1,35 @@
+[class^="m-kotobuki"] header {
+  background-color: #FE7B81; }
+  [class^="m-kotobuki"] header .brand a {
+    background-image: url("/image/kotobuki/header_logo.sp.480.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 98px; }
+
 .kotobuki-banner {
+  position: relative;
   font-size: 20px;
   color: #FE6C72;
-  background-color: #FFF9F1;
-  padding: 8px;
+  background-image: url("/image/kotobuki/kotobuki_line.sp.480.png");
+  background-size: 100%;
+  padding-bottom: 15.5%;
   margin-left: -12px;
   margin-right: -12px; }
+  .kotobuki-banner.kotobuki-banner__cal::after, .kotobuki-banner.kotobuki-banner__basic::after, .kotobuki-banner.kotobuki-banner__kobetsu::after {
+    content: "";
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 50%;
+    padding-bottom: 5%;
+    left: 17px;
+    top: 30%; }
+  .kotobuki-banner.kotobuki-banner__cal::after {
+    background-image: url("/image/kotobuki/cbword1.sp.480.png"); }
+  .kotobuki-banner.kotobuki-banner__basic::after {
+    background-image: url("/image/kotobuki/cbword3.sp.480.png"); }
+  .kotobuki-banner.kotobuki-banner__kobetsu::after {
+    background-image: url("/image/kotobuki/cbword2.sp.480.png"); }
 
 .kotobuki-basic__list ul.list-group li a::before {
   content: none; }
