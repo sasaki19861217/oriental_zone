@@ -112,20 +112,21 @@
             var d = d.substr(1);
           }
           var dNumber = Number(d);
+          var addWeek = day + week + 6 * week;
 
           if (day <= 6 && week == 0) {
             return dNumber
             console.log(dNumber);
-          } else if (test <= 13 && week == 1) {
+          } else if (addWeek <= 13 && week == 1) {
             return dNumber + 7
             console.log(dNumber + 7);
-          } else if (test <= 20 && week == 2) {
+          } else if (addWeek <= 20 && week == 2) {
             return dNumber + 14
             console.log(dNumber + 14);
-          } else if (test <= 27 && week == 3) {
+          } else if (addWeek <= 27 && week == 3) {
             return dNumber + 21
             console.log(dNumber + 21);
-          } else if (test <= 30 && week == 4) {
+          } else if (addWeek <= 30 && week == 4) {
             return dNumber + 28
             console.log(dNumber + 28);
           } else {
@@ -144,17 +145,17 @@
           }
         },
         tdCount: function(day, week, date){
-          var test = day + week + 6 * week;
+          var addWeek = day + week + 6 * week;
 
           if (day <= 6 && week == 0) {
             return true
-          } else if (test <= 13 && week == 1) {
+          } else if (addWeek <= 13 && week == 1) {
             return true
-          } else if (test <= 20 && week == 2) {
+          } else if (addWeek <= 20 && week == 2) {
             return true
-          } else if (test <= 27 && week == 3) {
+          } else if (addWeek <= 27 && week == 3) {
             return true
-          } else if (test <= 30 && week == 4) {
+          } else if (addWeek <= 30 && week == 4) {
             return true
           } else {
             return false
