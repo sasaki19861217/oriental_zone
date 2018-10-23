@@ -21,8 +21,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)">
-            <td v-for="(tst, key2) in daysTable" v-html="tdContent(key2)" v-if="tdCount(key2)"></td>
+          <!-- <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)" v-bind:class="['tr-' + [key1 + 1]]">
+            <td v-for="(days, key2) in daysTable" v-html="tdContent(key2, days.date)" v-if="tdCount(key2)"></td>
+          </tr> -->
+          <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)" v-bind:class="['tr-' + [key1 + 1]]">
+            <td v-for="(days, key2) in daysTable" v-if="tdCount(key2,key1)" v-html="tdContent(key2, days.date)"></td>
           </tr>
         </tbody>
       </table>
@@ -47,6 +50,7 @@
     // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
     //   daysTable[1] = 29;
     // }
+    var a = 1;
 
     new Vue({
       el: '#calendar',
@@ -55,7 +59,38 @@
         month: month,
         month_eng: month_eng,
         weekList: ['日','月','火','水','木','金','土'],
-        daysTable: [{"date":"2018-10-01","image1":"0","image2":"0"},{"date":"2018-10-02","image1":"1","image2":"0"},{"date":"2018-10-03","image1":"0","image2":"0"},{"date":"2018-10-04","image1":"0","image2":"0"},{"date":"2018-10-05","image1":"0","image2":"0"},{"date":"2018-10-06","image1":"0","image2":"4"},{"date":"2018-10-07","image1":"0","image2":"5"},{"date":"2018-10-08","image1":"0","image2":"0"},{"date":"2018-10-09","image1":"1","image2":"0"},{"date":"2018-10-10","image1":"1","image2":"6"},{"date":"2018-10-11","image1":"0","image2":"0"},{"date":"2018-10-12","image1":"1","image2":"0"},{"date":"2018-10-13","image1":"0","image2":"0"},{"date":"2018-10-14","image1":"0","image2":"0"},{"date":"2018-10-15","image1":"0","image2":"0"},{"date":"2018-10-16","image1":"0","image2":"0"},{"date":"2018-10-17","image1":"0","image2":"0"},{"date":"2018-10-18","image1":"0","image2":"4"},{"date":"2018-10-19","image1":"1","image2":"5"},{"date":"2018-10-20","image1":"1","image2":"6"},{"date":"2018-10-21","image1":"0","image2":"0"},{"date":"2018-10-22","image1":"1","image2":"0"},{"date":"2018-10-23","image1":"0","image2":"0"},{"date":"2018-10-24","image1":"0","image2":"0"},{"date":"2018-10-25","image1":"0","image2":"0"},{"date":"2018-10-26","image1":"0","image2":"0"},{"date":"2018-10-27","image1":"0","image2":"0"},{"date":"2018-10-28","image1":"0","image2":"0"},{"date":"2018-10-29","image1":"1","image2":"0"},{"date":"2018-10-30","image1":"1","image2":"4"},{"date":"2018-10-31","image1":"0","image2":"5"}],
+        daysTable: [
+        {"date":"2018-10-01","image1":"0","image2":"0"},
+        {"date":"2018-10-02","image1":"1","image2":"0"},
+        {"date":"2018-10-03","image1":"0","image2":"0"},
+        {"date":"2018-10-04","image1":"0","image2":"0"},
+        {"date":"2018-10-05","image1":"0","image2":"0"},
+        {"date":"2018-10-06","image1":"0","image2":"4"},
+        {"date":"2018-10-07","image1":"0","image2":"5"},
+        {"date":"2018-10-08","image1":"0","image2":"0"},
+        {"date":"2018-10-09","image1":"1","image2":"0"},
+        {"date":"2018-10-10","image1":"1","image2":"6"},
+        {"date":"2018-10-11","image1":"0","image2":"0"},
+        {"date":"2018-10-12","image1":"1","image2":"0"},
+        {"date":"2018-10-13","image1":"0","image2":"0"},
+        {"date":"2018-10-14","image1":"0","image2":"0"},
+        {"date":"2018-10-15","image1":"0","image2":"0"},
+        {"date":"2018-10-16","image1":"0","image2":"0"},
+        {"date":"2018-10-17","image1":"0","image2":"0"},
+        {"date":"2018-10-18","image1":"0","image2":"4"},
+        {"date":"2018-10-19","image1":"1","image2":"5"},
+        {"date":"2018-10-20","image1":"1","image2":"6"},
+        {"date":"2018-10-21","image1":"0","image2":"0"},
+        {"date":"2018-10-22","image1":"1","image2":"0"},
+        {"date":"2018-10-23","image1":"0","image2":"0"},
+        {"date":"2018-10-24","image1":"0","image2":"0"},
+        {"date":"2018-10-25","image1":"0","image2":"0"},
+        {"date":"2018-10-26","image1":"0","image2":"0"},
+        {"date":"2018-10-27","image1":"0","image2":"0"},
+        {"date":"2018-10-28","image1":"0","image2":"0"},
+        {"date":"2018-10-29","image1":"1","image2":"0"},
+        {"date":"2018-10-30","image1":"1","image2":"4"},
+        {"date":"2018-10-31","image1":"0","image2":"5"}],
         week:['1','2','3','4','5','6'],
       },
       methods:{
@@ -68,8 +103,9 @@
           }
           return d;
         },
-        tdContent: function(day){
-            return day + 1;
+        tdContent: function(day, test){
+          console.log(test);
+          return a++
         },
         tdLastDate: function(day){
           var eom = endOfMonth.getDate();
@@ -81,8 +117,18 @@
             return false
           }
         },
-        tdCount: function(day){
-          if (day <= 6) {
+        tdCount: function(day, week){
+          var test = day + week + 6 * week;
+          
+          if (day <= 6 && week == 0) {
+            return true
+          } else if (test <= 13 && week == 1) {
+            return true
+          } else if (test <= 20 && week == 2) {
+            return true
+          } else if (test <= 27 && week == 3) {
+            return true
+          } else if (test <= 30 && week == 4) {
             return true
           } else {
             return false
