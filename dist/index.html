@@ -25,7 +25,7 @@
             <td v-for="(days, key2) in daysTable" v-html="tdContent(key2, days.date)" v-if="tdCount(key2)"></td>
           </tr> -->
           <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)" v-bind:class="['tr-' + [key1 + 1]]">
-            <td v-for="(days, key2) in daysTable" v-if="tdCount(key2,key1)" v-html="tdContent(key2, days.date)"></td>
+            <td v-for="(days, key2) in daysTable" v-if="tdCount(key2, key1, days.date)" v-html="tdContent(key2, days.date, key1)"></td>
           </tr>
         </tbody>
       </table>
@@ -103,9 +103,35 @@
           }
           return d;
         },
-        tdContent: function(day, test){
-          console.log(test);
-          return a++
+        tdContent: function(day, date, week){
+          // console.log(date);
+          var d = date.substr(-2);
+          var zero = '0';
+
+          if(!d.indexOf(zero)){
+            var d = d.substr(1);
+          }
+          var dNumber = Number(d);
+
+          if (day <= 6 && week == 0) {
+            return dNumber
+            console.log(dNumber);
+          } else if (test <= 13 && week == 1) {
+            return dNumber + 7
+            console.log(dNumber + 7);
+          } else if (test <= 20 && week == 2) {
+            return dNumber + 14
+            console.log(dNumber + 14);
+          } else if (test <= 27 && week == 3) {
+            return dNumber + 21
+            console.log(dNumber + 21);
+          } else if (test <= 30 && week == 4) {
+            return dNumber + 28
+            console.log(dNumber + 28);
+          } else {
+            return false
+          }
+          // return a++
         },
         tdLastDate: function(day){
           var eom = endOfMonth.getDate();
@@ -117,9 +143,9 @@
             return false
           }
         },
-        tdCount: function(day, week){
+        tdCount: function(day, week, date){
           var test = day + week + 6 * week;
-          
+
           if (day <= 6 && week == 0) {
             return true
           } else if (test <= 13 && week == 1) {
