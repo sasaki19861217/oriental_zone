@@ -21,15 +21,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, key) in week" v-if="tdLastDate(key)" v-html="tdContent(key)"></tr>
-
-          <!-- <tr  v-bind:id="['week-' + [key + 1]]" v-for="( item, key ) in 6">
-            <td v-for="( item, key ) in daysTable" v-bind:class="['cell-' + [key + 1]]" v-if="key <= 6">
-              <p v-html="calDate( item.date )"></p>
-              <span class="cal-img1">{{item.image1}}</span>
-              <span class="cal-img2">{{item.image2}}</span>
-            </td>
-          </tr> -->
+          <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)">
+            <td v-for="(tst, key2) in daysTable" v-html="tdContent(key2)" v-if="tdCount(key2)"></td>
+          </tr>
         </tbody>
       </table>
     </div><!-- #calendar -->
@@ -48,6 +42,7 @@
     var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
     var month_eng = month_eng_list[month - 1];
 
+    var endOfMonth = new Date(year, month, 0)
     // var daysTable = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
     // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
     //   daysTable[1] = 29;
@@ -74,18 +69,26 @@
           return d;
         },
         tdContent: function(day){
-          if (day == 5) {
-            false
-          } else {
-            return '<td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td>'
-          }
+            return day + 1;
         },
         tdLastDate: function(day){
-            var endOfMonth = new Date(year, month, 0)
-            var eom = endOfMonth.getDate();
-            console.log(eom);
-          },
+          var eom = endOfMonth.getDate();
+          var loop = Math.floor((today.getDate() - today.getDay() + 12 ) / 7);
+
+          if (day <= loop) {
+            return true
+          } else {
+            return false
+          }
         },
+        tdCount: function(day){
+          if (day <= 6) {
+            return true
+          } else {
+            return false
+          }
+        },
+      },
       month: {
         month: month,
       },
