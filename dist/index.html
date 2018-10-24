@@ -49,7 +49,7 @@
     var startDay = now.setDate(1);
         startDay = now.getDay();
 
-    var endOfMonth = new Date(year, month, 0)
+    var endOfMonth = new Date(year, month, 0);
     var eom = endOfMonth.getDate();
     var loop = Math.floor((today.getDate() - today.getDay() + 12 ) / 7);
 
@@ -168,18 +168,19 @@
         month: month,
       },
     });
+
   $(function(){
     var s;
     var e;
-    var l = loop + 1;
-    var c = $('.tr-' + l + ' td').length;
+    var l = loop + 1;//今月の週の数の調整
+    var c = $('.tr-' + l + ' td').length;//最終週にいくつtdがあるか確認
 
     // var eq = $('.tr-1 td:eq(' + n + ')');
 
     for (var i = 0; i < startDay; i++) {
-      $('.tr-1').prepend('<td></td>');
+      $('.tr-1').prepend('<td></td>'); //月初初日までに空いている部分をtdで埋める
 
-      if (startDay == 1) {
+      if (startDay == 1) { //月初初日の開始位置がnの場合、sにはみ出たtdの位置の値を代入し、startDaySetを実行
         s = i + 7;
         startDaySet(s);
       } else if (startDay == 2) {
@@ -199,7 +200,7 @@
         startDaySet(s);
       }
 
-      if (c == 1) {
+      if (c == 1) { //最終週のtdがn個の場合eに埋めるのに必要な個数分の値を代入し、endDaySetを実行
         e = 6;
         endDaySet(e);
       } else if (c == 2) {
@@ -219,18 +220,21 @@
         endDaySet(e);
       }
     }
+
     function startDaySet(n){
-      $('.tr-1 td:eq(' + n + ')').remove();
+      $('.tr-1 td:eq(' + n + ')').remove(); //はみ出たtdの位置のtdを削除、これはstartDayの値だけ繰り返す
     }
-    function endDaySet(e){
+
+    function endDaySet(e){ //最終週をtdで埋めるのをeにの回数分繰り返す
       for (var i = 0; i < e; i++) {
         if (i == 0) {
-          $('.tr-' + l ).append('<td>'+ eom +'</td>');
+          $('.tr-' + l ).append('<td>'+ eom +'</td>'); //月末最終日が欠けているので、補填する
         } else {
-          $('.tr-' + l ).append('<td></td>');
+          $('.tr-' + l ).append('<td></td>'); //空のtdで埋める
         }
       }
     }
+
   });
   </script>
 
