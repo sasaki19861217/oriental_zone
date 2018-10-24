@@ -45,6 +45,11 @@
     var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
     var month_eng = month_eng_list[month - 1];
 
+    var now = new Date();
+    var startDay = now.setDate(1);
+        startDay = now.getDay();
+    console.log(startDay);
+
     var endOfMonth = new Date(year, month, 0)
     // var daysTable = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
     // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
@@ -118,16 +123,16 @@
             return dNumber
             console.log(dNumber);
           } else if (addWeek <= 13 && week == 1) {
-            return dNumber + 7
+            return dNumber + 6
             console.log(dNumber + 7);
           } else if (addWeek <= 20 && week == 2) {
-            return dNumber + 14
+            return dNumber + 13
             console.log(dNumber + 14);
           } else if (addWeek <= 27 && week == 3) {
-            return dNumber + 21
+            return dNumber + 20
             console.log(dNumber + 21);
           } else if (addWeek <= 30 && week == 4) {
-            return dNumber + 28
+            return dNumber + 27
             console.log(dNumber + 28);
           } else {
             return false
@@ -166,6 +171,12 @@
         month: month,
       },
     });
+  $(function(){
+    for (var i = 0; i < startDay; i++) {
+      $('.tr-1').prepend('<td></td>');
+      // $('.tr-1 td:last').remove();
+    }
+  });
   </script>
 
 
