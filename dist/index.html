@@ -48,9 +48,11 @@
     var now = new Date();
     var startDay = now.setDate(1);
         startDay = now.getDay();
-    console.log(startDay);
 
     var endOfMonth = new Date(year, month, 0)
+    var eom = endOfMonth.getDate();
+    var loop = Math.floor((today.getDate() - today.getDay() + 12 ) / 7);
+
     // var daysTable = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
     // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
     //   daysTable[1] = 29;
@@ -121,27 +123,22 @@
 
           if (day <= 6 && week == 0) {
             return dNumber
-            console.log(dNumber);
           } else if (addWeek <= 13 && week == 1) {
             return dNumber + 6
-            console.log(dNumber + 7);
           } else if (addWeek <= 20 && week == 2) {
             return dNumber + 13
-            console.log(dNumber + 14);
           } else if (addWeek <= 27 && week == 3) {
             return dNumber + 20
-            console.log(dNumber + 21);
           } else if (addWeek <= 30 && week == 4) {
             return dNumber + 27
-            console.log(dNumber + 28);
           } else {
             return false
           }
           // return a++
         },
         tdLastDate: function(day){
-          var eom = endOfMonth.getDate();
-          var loop = Math.floor((today.getDate() - today.getDay() + 12 ) / 7);
+          // var eom = endOfMonth.getDate();
+          // var loop = Math.floor((today.getDate() - today.getDay() + 12 ) / 7);
 
           if (day <= loop) {
             return true
@@ -172,9 +169,67 @@
       },
     });
   $(function(){
+    var s;
+    var e;
+    var l = loop + 1;
+    var c = $('.tr-' + l + ' td').length;
+
+    // var eq = $('.tr-1 td:eq(' + n + ')');
+
     for (var i = 0; i < startDay; i++) {
       $('.tr-1').prepend('<td></td>');
-      $('.tr-1 td:last').remove();
+
+      if (startDay == 1) {
+        s = i + 7;
+        startDaySet(s);
+      } else if (startDay == 2) {
+        s = i + 6;
+        startDaySet(s);
+      } else if (startDay == 3) {
+        s = i + 5;
+        startDaySet(s);
+      } else if (startDay == 4) {
+        s = i + 4;
+        startDaySet(s);
+      } else if (startDay == 5) {
+        s =  i + 3;
+        startDaySet(s);
+      } else if (startDay == 6) {
+        s = i + 2;
+        startDaySet(s);
+      }
+
+      if (c == 1) {
+        e = 6;
+        endDaySet(e);
+      } else if (c == 2) {
+        e = 5;
+        endDaySet(e);
+      } else if (c == 3) {
+        e = 4;
+        endDaySet(e);
+      } else if (c == 4) {
+        e = 3;
+        endDaySet(e);
+      } else if (c == 5) {
+        e = 2;
+        endDaySet(e);
+      } else if (c == 6) {
+        e = 1;
+        endDaySet(e);
+      }
+    }
+    function startDaySet(n){
+      $('.tr-1 td:eq(' + n + ')').remove();
+    }
+    function endDaySet(e){
+      for (var i = 0; i < e; i++) {
+        if (i == 0) {
+          $('.tr-' + l ).append('<td>'+ eom +'</td>');
+        } else {
+          $('.tr-' + l ).append('<td></td>');
+        }
+      }
     }
   });
   </script>
