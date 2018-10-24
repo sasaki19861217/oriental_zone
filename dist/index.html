@@ -45,13 +45,16 @@
     var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
     var month_eng = month_eng_list[month - 1];
 
-    var now = new Date();
-    var startDay = now.setDate(1);
-        startDay = now.getDay();
+    // var now = new Date();
+    var startDay = today.setDate(1); //今月の初日を取得
+        startDay = today.getDay(); //今月の1日が何曜日か0〜6で取得
+        console.log('startDay: ' + startDay);
 
-    var endOfMonth = new Date(year, month, 0);
-    var eom = endOfMonth.getDate();
-    var loop = Math.floor((today.getDate() - today.getDay() + 12 ) / 7);
+    var endOfMonth = new Date(year, month, 0); //当月末を取得
+    var eom = endOfMonth.getDate(); //当月末の日付のみを取得
+
+    var loop = Math.floor((endOfMonth.getDate() - endOfMonth.getDay() + 12 ) / 7); //当月末の情報から今月が何週間あるか取得
+
 
     // var daysTable = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
     // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
@@ -111,7 +114,6 @@
           return d;
         },
         tdContent: function(day, date, week){
-          // console.log(date);
           var d = date.substr(-2);
           var zero = '0';
 
@@ -172,9 +174,11 @@
   $(function(){
     var s;
     var e;
-    var l = loop + 1;//今月の週の数の調整
-    var c = $('.tr-' + l + ' td').length;//最終週にいくつtdがあるか確認
+    // var l = loop + 1;//今月の週の数の調整
+    var c = $('.tr-' + loop + ' td').length;//最終週にいくつtdがあるか確認
 
+    console.log('loop: '+loop);
+    console.log('c: '+c);
     // var eq = $('.tr-1 td:eq(' + n + ')');
 
     for (var i = 0; i < startDay; i++) {
@@ -228,9 +232,9 @@
     function endDaySet(e){ //最終週をtdで埋めるのをeにの回数分繰り返す
       for (var i = 0; i < e; i++) {
         if (i == 0) {
-          $('.tr-' + l ).append('<td>'+ eom +'</td>'); //月末最終日が欠けているので、補填する
+          $('.tr-' + loop ).append('<td>'+ eom +'</td>'); //月末最終日が欠けているので、補填する
         } else {
-          $('.tr-' + l ).append('<td></td>'); //空のtdで埋める
+          $('.tr-' + loop ).append('<td></td>'); //空のtdで埋める
         }
       }
     }
