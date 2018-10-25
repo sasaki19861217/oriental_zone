@@ -35,14 +35,13 @@
   <script src="https://code.jquery.com/jquery-migrate-3.0.0.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   <script>
-  var today = new Date("2018/02/01");
+  var today = new Date();
   var year = today.getFullYear();
   var month = today.getMonth()+ 1;
   var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
   var month_eng = month_eng_list[month - 1];
 
-  // var startDate = getStartDate(year,month);
-  // var row = createRow(startDate,month);
+  var daysData = $('#calendar').data('caldata');
 
   new Vue({
     el: '#js-calendar',
@@ -50,7 +49,6 @@
       year:year,
       month:month,
       weekList: ['日','月','火','水','木','金','土'],
-      // list: row,
       daysTable:[
         {"date":"2018-10-01","image1":"0","image2":"0"},
         {"date":"2018-10-02","image1":"1","image2":"0"},
@@ -85,9 +83,6 @@
         {"date":"2018-10-31","image1":"0","image2":"5"}],
       },
       methods: {
-        // padLeft:function(val){
-        //   return padLeft(val);
-        // },
         calDate: function(day, img1){
           var d = day.substr(-2);
           var zero = '0';
@@ -127,19 +122,6 @@
       return date;
     }
 
-    /** 日付リストを生成 */
-    // function createRow(date,targetMonth){
-    //   var row = [];
-    //   for(var i=0;i<42;i++){
-    //     row.push({
-    //       date:date.getDate(),
-    //       isNotThisMonth: date.getMonth()+1 != targetMonth,
-    //     });
-    //     date.setDate(date.getDate() + 1);
-    //   }
-    //   return row;
-    // }
-
     /** 年月からカレンダーの開始日を取得 */
     $(function(){
       //月の開始日を取得
@@ -164,7 +146,7 @@
       var nextMonth = 42 - db;
       if (nextMonth !=0) {
         for (var i = 0; i < nextMonth; i++) {
-          $('#js-date').append('<div class="kotobuki-cal__dayBox kotobuki-cal__nextMonth"><p class="kotobuki-cal__days">' + [i+1] + '</p></div>');
+          $('#js-date').append('<div class="kotobuki-cal__dayBox kotobuki-cal__nextMonth"><p class="kotobuki-cal__days">' + [i+1] + '</p><p class="kotobuki-cal__image"><span style="visibility: hidden;"></span></p></div>');
         }
       }
     });
