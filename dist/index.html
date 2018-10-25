@@ -5,230 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>calendar</title>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <style media="screen">
-  .flex{
-  display: -webkit-flex;
-  display: -moz-flex;
-  display: -ms-flex;
-  display: -o-flex;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: stretch;
-  margin:0 auto;
-}
-
-.headerItem{
-  text-align: center;
-  height:64px;
-}
-
-.shiftButton{
-flex-basis:14.28%;
-}
-
-.monthYear {
-background-color:#eeeeee;
-flex-grow: 1;
-font-weight: bold;
-}
-
-.main {
-  width:100%;
-  max-width:840px;
-}
-
-
-.border{
-border-style: solid;
-border-width: 0.05em;
-border-color: #999999;
-border-radius: 5px;
-}
-
-.table {
-display:table;
-width:100%;
-height:100%;
-}
-
-.button {
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+13,bbbbbb+100 */
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 13%, #bbbbbb 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, #ffffff 13%,#bbbbbb 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, #ffffff 13%,#bbbbbb 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#bbbbbb',GradientType=0 ); /* IE6-9 */
-
-
-}
-
-.button:hover {
-/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+13,8e8e8e+100 */
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 13%, #8e8e8e 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, #ffffff 13%,#8e8e8e 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, #ffffff 13%,#8e8e8e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#8e8e8e',GradientType=0 ); /* IE6-9 */
-
-cursor: pointer;
-}
-
-.middle {
-display:table-cell;
-vertical-align:middle;
-}
-
-.arrow {
-font-size: 1.5em;
-}
-
-
-.list {
-  width: 14.28%;
-  flex-grow: 1;
-  text-align: center;
-  height:70px;
-}
-
-.weekList {
-  width: 14.28%;
-  flex-grow: 1;
-  text-align: center;
-  height:24px;
-}
-
-.weekList div {
-background-color: #eeeeee;
-}
-
-.weekList p {
-color: #333333;
-font-size: 1em;
-margin-top: 0px;
-margin-bottom: 0px;
-}
-
-.weekList:first-child p{
-color: #ff3333;
-}
-.weekList:last-child p{
-color: #3333ff;
-}
-
-.dateItem {
-height:100%;
-margin:0px;
-}
-
-p.date{
-font-size: 1em;
-color: #ff3333;
-margin-top: 0px;
-margin-bottom: 0px;
-}
-
-p.six{
-font-size: 0.75em;
-color: #333333;
-margin-top: 0px;
-margin-bottom: 0px;
-}
-
-p.anniv{
-font-size: 0.7em;
-color: #ff3333;
-margin-top: 5px;
-margin-bottom: 0px;
-}
-
-.notThisMonth {
-background-color: #eeeeee;
-opacity:0.7;
-}
-
-
-@media screen and (min-width: 700px) {
-.list{
-  height:84px;
-}
-}
-
-@media screen and (max-width: 700px) {
-.headerItem {
-  height: 32px;
-}
-
-p.date {
-  font-size: 0.8em;
-}
-
-p.six {
-  font-size:0.5em;
-}
-
-p.anniv {
-  font-size:0.5em;
-  margin-top:0px;
-}
-}
-
-[v-cloak] {
-display:none;
-}
-
-  </style>
   <div id="js-calendar">
     <div id="calendar"></div>
-    <div class="flex main">
-      <!-- 前月へ -->
-      <div class="headerItem shiftButton">
-        <div class="dateItem border table button" v-on:click="shift('back')">
-          <i class="fa fa-caret-left arrow middle" aria-hidden="true"></i>
+
+    <div class="kotobuki-cal__wrap">
+      <div v-cloak class="kotobuki-cal__flex">
+        <!-- 曜日 -->
+        <div class="kotobuki-cal__weekList" v-for="date in weekList">
+          <div class="kotobuki-cal__weekItem">
+            <p>{{date}}</p>
+          </div>
         </div>
       </div>
-      <!-- 年月表示 -->
-      <div v-cloak class="headerItem monthYear">
-        <div class="dateItem border table">
-          <span class="middle">{{year}}N{{padLeft(month)}}</span>
-        </div>
-      </div>
-      <!-- 次月へ -->
-      <div class="headerItem shiftButton">
-        <div class="dateItem border table button" v-on:click="shift('next')">
-          <i class="fa fa-caret-right arrow middle" aria-hidden="true"></i>
+      <div id="js-date" class="kotobuki-cal__body kotobuki-cal__flex">
+        <div class="kotobuki-cal__dayBox" v-for="date in daysTable">
+          <p class="kotobuki-cal__days" v-html="calDate(date.date)" v-bind:class="['cal-zone__' + date.image1]"></p>
+          <p class="kotobuki-cal__image" v-html="calImg(date.image1, date.image2)"></p>
         </div>
       </div>
     </div>
 
-    <div v-cloak class="flex main">
-      <!-- 曜日 -->
-      <div class="weekList" v-for="date in weekList">
-        <div class="dateItem border">
-          <p>{{date}}</p>
-        </div>
-      </div>
-    </div>
-
-    <div v-cloak class="flex main">
-      <!-- 日付 -->
-      <div class="list" v-for="date in list">
-        <div class="dateItem border" v-bind:class="{ notThisMonth: date.isNotThisMonth }">
-          <p class="date">{{date.date}}</p>
-          <p class="six">{{date.six}}</p>
-          <p class="anniv">{{date.anniv}}</p>
-        </div>
-      </div>
-    </div>
-
-
-    <div id="js-date" v-for="date in daysTable">
-      <div class="dayBox">
-        <p class="days" v-html="calDate(date.date)"></p>
-        <p class="image1" v-html="calImg(date.image1, date.image2)"></p>
-      </div>
-    </div>
 
   </div><!-- #calendar -->
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -236,70 +35,60 @@ display:none;
   <script src="https://code.jquery.com/jquery-migrate-3.0.0.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   <script>
-    var today = new Date("2018/10/01");
-    var year = today.getFullYear();
-    var month = today.getMonth()+ 1;
-    var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
-    var month_eng = month_eng_list[month - 1];
+  var today = new Date("2018/02/01");
+  var year = today.getFullYear();
+  var month = today.getMonth()+ 1;
+  var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
+  var month_eng = month_eng_list[month - 1];
 
-    var startDate = getStartDate(year,month);
-    var row = createRow(startDate,month);
+  // var startDate = getStartDate(year,month);
+  // var row = createRow(startDate,month);
 
-    new Vue({
-      el: '#js-calendar',
-      data: {
-        year:year,
-        month:month,
-        weekList: ['日','月','火','水','木','金','土'],
-        list: row,
-        daysTable:[
-          {"date":"2018-10-01","image1":"0","image2":"0"},
-          {"date":"2018-10-02","image1":"1","image2":"0"},
-          {"date":"2018-10-03","image1":"0","image2":"0"},
-          {"date":"2018-10-04","image1":"0","image2":"0"},
-          {"date":"2018-10-05","image1":"0","image2":"0"},
-          {"date":"2018-10-06","image1":"0","image2":"4"},
-          {"date":"2018-10-07","image1":"0","image2":"5"},
-          {"date":"2018-10-08","image1":"0","image2":"0"},
-          {"date":"2018-10-09","image1":"1","image2":"0"},
-          {"date":"2018-10-10","image1":"1","image2":"6"},
-          {"date":"2018-10-11","image1":"0","image2":"0"},
-          {"date":"2018-10-12","image1":"1","image2":"0"},
-          {"date":"2018-10-13","image1":"0","image2":"0"},
-          {"date":"2018-10-14","image1":"0","image2":"0"},
-          {"date":"2018-10-15","image1":"0","image2":"0"},
-          {"date":"2018-10-16","image1":"0","image2":"0"},
-          {"date":"2018-10-17","image1":"0","image2":"0"},
-          {"date":"2018-10-18","image1":"0","image2":"4"},
-          {"date":"2018-10-19","image1":"1","image2":"5"},
-          {"date":"2018-10-20","image1":"1","image2":"6"},
-          {"date":"2018-10-21","image1":"0","image2":"0"},
-          {"date":"2018-10-22","image1":"1","image2":"0"},
-          {"date":"2018-10-23","image1":"0","image2":"0"},
-          {"date":"2018-10-24","image1":"0","image2":"0"},
-          {"date":"2018-10-25","image1":"0","image2":"0"},
-          {"date":"2018-10-26","image1":"0","image2":"0"},
-          {"date":"2018-10-27","image1":"0","image2":"0"},
-          {"date":"2018-10-28","image1":"0","image2":"0"},
-          {"date":"2018-10-29","image1":"1","image2":"0"},
-          {"date":"2018-10-30","image1":"1","image2":"4"},
-          {"date":"2018-10-31","image1":"0","image2":"5"}],
+  new Vue({
+    el: '#js-calendar',
+    data: {
+      year:year,
+      month:month,
+      weekList: ['日','月','火','水','木','金','土'],
+      // list: row,
+      daysTable:[
+        {"date":"2018-10-01","image1":"0","image2":"0"},
+        {"date":"2018-10-02","image1":"1","image2":"0"},
+        {"date":"2018-10-03","image1":"0","image2":"0"},
+        {"date":"2018-10-04","image1":"0","image2":"0"},
+        {"date":"2018-10-05","image1":"0","image2":"0"},
+        {"date":"2018-10-06","image1":"0","image2":"4"},
+        {"date":"2018-10-07","image1":"0","image2":"5"},
+        {"date":"2018-10-08","image1":"0","image2":"0"},
+        {"date":"2018-10-09","image1":"1","image2":"0"},
+        {"date":"2018-10-10","image1":"1","image2":"6"},
+        {"date":"2018-10-11","image1":"0","image2":"0"},
+        {"date":"2018-10-12","image1":"1","image2":"0"},
+        {"date":"2018-10-13","image1":"0","image2":"0"},
+        {"date":"2018-10-14","image1":"0","image2":"0"},
+        {"date":"2018-10-15","image1":"0","image2":"0"},
+        {"date":"2018-10-16","image1":"0","image2":"0"},
+        {"date":"2018-10-17","image1":"0","image2":"0"},
+        {"date":"2018-10-18","image1":"0","image2":"4"},
+        {"date":"2018-10-19","image1":"1","image2":"5"},
+        {"date":"2018-10-20","image1":"1","image2":"6"},
+        {"date":"2018-10-21","image1":"0","image2":"0"},
+        {"date":"2018-10-22","image1":"1","image2":"0"},
+        {"date":"2018-10-23","image1":"0","image2":"0"},
+        {"date":"2018-10-24","image1":"0","image2":"0"},
+        {"date":"2018-10-25","image1":"0","image2":"0"},
+        {"date":"2018-10-26","image1":"0","image2":"0"},
+        {"date":"2018-10-27","image1":"0","image2":"0"},
+        {"date":"2018-10-28","image1":"0","image2":"0"},
+        {"date":"2018-10-29","image1":"1","image2":"0"},
+        {"date":"2018-10-30","image1":"1","image2":"4"},
+        {"date":"2018-10-31","image1":"0","image2":"5"}],
       },
       methods: {
-        // shift:function(val){
-        //   if('back' == val){
-        //     this.month = (this.month === 1)?12:this.month - 1;
-        //     this.year = (this.month === 12)?this.year - 1:this.year;
-        //   }else{
-        //     this.month = (this.month === 12)?1:this.month + 1;
-        //     this.year = (this.month === 12)?this.year + 1:this.year;
-        //   }
-        //   this.list = updateRow(this.year,this.month);
+        // padLeft:function(val){
+        //   return padLeft(val);
         // },
-        padLeft:function(val){
-          return padLeft(val);
-        },
-        calDate: function(day){
+        calDate: function(day, img1){
           var d = day.substr(-2);
           var zero = '0';
 
@@ -309,15 +98,14 @@ display:none;
           return d;
         },
         calImg: function(img1, img2){
-          if(img1 == 0 && img2 == 0){
-            var d;
-          } else if(img1 >= 0 && img2 == 0){
-            var d = "<span>img"+img1+"</span>"
-          } else if(img1 == 0 && img2 >= 0){
-            var d = "<span>img"+img2+"</span>"
-          } else if(img1 >= 0 && img2 >= 0){
-            var d = "<span>img"+img1+"</span> <span>img"+img2+"</span>"
-          }
+          var d = '<span style="visibility: hidden;">'+ img2 +'</span>';//image2のロジックが修正されたら消す
+          //以下の9行はアイコン表示用のため、ロジックが修正されたら
+          //コメントアウト解除
+          // if(img2 == 0){
+          //   var d = '<span style="visibility: hidden;">'+ img2 +'</span>';
+          // } else if(img2 >= 0){
+          //   var d = '<span style="visibility: hidden;"><img src="http://oriental.cocoloni.jp/image/kotobuki/icon/calendar_icon_'+ img2 +'.sp.480.png" alt="" /></span>'
+          // }
           return d;
         },
       }
@@ -340,58 +128,49 @@ display:none;
     }
 
     /** 日付リストを生成 */
-    function createRow(date,targetMonth){
-      // console.log(date);
-      var row = [];
-      for(var i=0;i<42;i++){
-        // console.log(date.getDate());
-        row.push({
-          date:date.getDate(),
-          // anniv:getAnniversary(padLeft(date.getMonth()+1) + padLeft(date.getDate())),
-          // six:'大安',
-          isNotThisMonth: date.getMonth()+1 != targetMonth,
-        });
-        date.setDate(date.getDate() + 1);
-      }
-      return row;
-    }
-
-    // /** 指定した年月で画面更新 */
-    // function updateRow(year,month){
-    //   //カレンダーの開始日を取得
-    //   var startDate = getStartDate(year,padLeft(month));
-    //   var row = createRow(startDate,month);
+    // function createRow(date,targetMonth){
+    //   var row = [];
+    //   for(var i=0;i<42;i++){
+    //     row.push({
+    //       date:date.getDate(),
+    //       isNotThisMonth: date.getMonth()+1 != targetMonth,
+    //     });
+    //     date.setDate(date.getDate() + 1);
+    //   }
     //   return row;
     // }
-
-    /** 2桁になるように左ゼロ埋め */
-    function padLeft(val){
-      return ( '00'  + val ).slice( -2 );
-    }
-
 
     /** 年月からカレンダーの開始日を取得 */
     $(function(){
       //月の開始日を取得
       var date = new Date(year + '/' + month + '/' + '01');
-      // console.log("月の開始日" + date);
       //曜日を取得
       var day = date.getDay();
-      // console.log("月の開始日の曜日" + day);
       //カレンダーの開始日が日曜日になるようにするため、
       //月の開始日から曜日値を引く
       date.setDate(date.getDate() - day);
-
-      for (var i = 0; i < day; i++) {
-        $('#js-date').prepend('<div class="dayBox"><p class="days">'+ [date.getDate()+i] +'</p></div>');
+      var lastMonth = [];
+      if (day != 0) {
+        $('#js-date').prepend('<span class="reverse"></span>')
+        for (var i = 0; i < day; i++) {
+          lastMonth.push(date.getDate()+i);
+          $('#js-date').prepend('<div class="kotobuki-cal__dayBox kotobuki-cal__lastMonth"><p class="kotobuki-cal__days">' + lastMonth[i] + '</p></div>');
+          $(".reverse").html($(".kotobuki-cal__dayBox.kotobuki-cal__lastMonth").get().reverse());
+        }
       }
 
-      var db = $('#js-date .dayBox').length;
-      console.log('現在表示されている日付の数(42個中)：' + db);
-
+      var db = $('#js-date .kotobuki-cal__dayBox').length;
+      // 月末日以降の空きを来月の月初で埋める
+      var nextMonth = 42 - db;
+      if (nextMonth !=0) {
+        for (var i = 0; i < nextMonth; i++) {
+          $('#js-date').append('<div class="kotobuki-cal__dayBox kotobuki-cal__nextMonth"><p class="kotobuki-cal__days">' + [i+1] + '</p></div>');
+        }
+      }
     });
 
 
-  </script>
-</body>
-</html>
+
+    </script>
+  </body>
+  </html>

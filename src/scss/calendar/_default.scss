@@ -1,0 +1,24 @@
+.kotobuki-cal__{
+  &wrap{
+    font-size: 1em;
+    color: #666;
+    background: rgba(255, 255, 255, 0.29);
+  }//wrap
+
+  &flex{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    margin: 0 auto;
+  }//flex
+
+}//.kotobuki-cal__
+
+
+.reverse {
+  display: contents;
+}
