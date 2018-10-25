@@ -2,106 +2,303 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="./style.css">
+  <title>calendar</title>
 </head>
 <body>
-  <main>
-    <style>
+  <style media="screen">
+  .flex{
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  margin:0 auto;
+}
 
-    </style>
-    <div id="calendar">
-      <div>{{month}}</div>
-      <table border="1">
-        <thead>
-          <tr>
-            <th v-for="date in weekList">{{date}}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)" v-bind:class="['tr-' + [key1 + 1]]">
-            <td v-for="(days, key2) in daysTable" v-if="tdCount(key2, key1, days.date)" v-html="tdContent(key2, days.date, key1)"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div><!-- #calendar -->
-  </main>
+.headerItem{
+  text-align: center;
+  height:64px;
+}
 
-  <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+.shiftButton{
+flex-basis:14.28%;
+}
+
+.monthYear {
+background-color:#eeeeee;
+flex-grow: 1;
+font-weight: bold;
+}
+
+.main {
+  width:100%;
+  max-width:840px;
+}
+
+
+.border{
+border-style: solid;
+border-width: 0.05em;
+border-color: #999999;
+border-radius: 5px;
+}
+
+.table {
+display:table;
+width:100%;
+height:100%;
+}
+
+.button {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+13,bbbbbb+100 */
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 13%, #bbbbbb 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #ffffff 13%,#bbbbbb 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #ffffff 13%,#bbbbbb 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#bbbbbb',GradientType=0 ); /* IE6-9 */
+
+
+}
+
+.button:hover {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+13,8e8e8e+100 */
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 13%, #8e8e8e 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, #ffffff 13%,#8e8e8e 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, #ffffff 13%,#8e8e8e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#8e8e8e',GradientType=0 ); /* IE6-9 */
+
+cursor: pointer;
+}
+
+.middle {
+display:table-cell;
+vertical-align:middle;
+}
+
+.arrow {
+font-size: 1.5em;
+}
+
+
+.list {
+  width: 14.28%;
+  flex-grow: 1;
+  text-align: center;
+  height:70px;
+}
+
+.weekList {
+  width: 14.28%;
+  flex-grow: 1;
+  text-align: center;
+  height:24px;
+}
+
+.weekList div {
+background-color: #eeeeee;
+}
+
+.weekList p {
+color: #333333;
+font-size: 1em;
+margin-top: 0px;
+margin-bottom: 0px;
+}
+
+.weekList:first-child p{
+color: #ff3333;
+}
+.weekList:last-child p{
+color: #3333ff;
+}
+
+.dateItem {
+height:100%;
+margin:0px;
+}
+
+p.date{
+font-size: 1em;
+color: #ff3333;
+margin-top: 0px;
+margin-bottom: 0px;
+}
+
+p.six{
+font-size: 0.75em;
+color: #333333;
+margin-top: 0px;
+margin-bottom: 0px;
+}
+
+p.anniv{
+font-size: 0.7em;
+color: #ff3333;
+margin-top: 5px;
+margin-bottom: 0px;
+}
+
+.notThisMonth {
+background-color: #eeeeee;
+opacity:0.7;
+}
+
+
+@media screen and (min-width: 700px) {
+.list{
+  height:84px;
+}
+}
+
+@media screen and (max-width: 700px) {
+.headerItem {
+  height: 32px;
+}
+
+p.date {
+  font-size: 0.8em;
+}
+
+p.six {
+  font-size:0.5em;
+}
+
+p.anniv {
+  font-size:0.5em;
+  margin-top:0px;
+}
+}
+
+[v-cloak] {
+display:none;
+}
+
+  </style>
+  <div id="js-calendar">
+    <div id="calendar"></div>
+    <div class="flex main">
+      <!-- 前月へ -->
+      <div class="headerItem shiftButton">
+        <div class="dateItem border table button" v-on:click="shift('back')">
+          <i class="fa fa-caret-left arrow middle" aria-hidden="true"></i>
+        </div>
+      </div>
+      <!-- 年月表示 -->
+      <div v-cloak class="headerItem monthYear">
+        <div class="dateItem border table">
+          <span class="middle">{{year}}N{{padLeft(month)}}</span>
+        </div>
+      </div>
+      <!-- 次月へ -->
+      <div class="headerItem shiftButton">
+        <div class="dateItem border table button" v-on:click="shift('next')">
+          <i class="fa fa-caret-right arrow middle" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+
+    <div v-cloak class="flex main">
+      <!-- 曜日 -->
+      <div class="weekList" v-for="date in weekList">
+        <div class="dateItem border">
+          <p>{{date}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div v-cloak class="flex main">
+      <!-- 日付 -->
+      <div class="list" v-for="date in list">
+        <div class="dateItem border" v-bind:class="{ notThisMonth: date.isNotThisMonth }">
+          <p class="date">{{date.date}}</p>
+          <p class="six">{{date.six}}</p>
+          <p class="anniv">{{date.anniv}}</p>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="js-date" v-for="date in daysTable">
+      <div class="dayBox">
+        <p class="days" v-html="calDate(date.date)"></p>
+        <p class="image1" v-html="calImg(date.image1, date.image2)"></p>
+      </div>
+    </div>
+
+  </div><!-- #calendar -->
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
+  <script src="https://code.jquery.com/jquery-migrate-3.0.0.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
   <script>
+    var today = new Date("2018/10/01");
+    var year = today.getFullYear();
+    var month = today.getMonth()+ 1;
+    var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
+    var month_eng = month_eng_list[month - 1];
 
-  //当月を取得
-  var today = new Date("2018/8/01");
-  var year = today.getFullYear();
-  var month = today.getMonth()+ 1;
-  var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
-  var month_eng = month_eng_list[month - 1];
+    var startDate = getStartDate(year,month);
+    var row = createRow(startDate,month);
 
-  // var now = new Date();
-  var startDay = today.setDate(1); //今月の初日を取得
-  startDay = today.getDay(); //今月の1日が何曜日か0〜6で取得
-  console.log('startDay: ' + startDay);
-
-  var endOfMonth = new Date(year, month, 0); //当月末を取得
-  var eom = endOfMonth.getDate(); //当月末の日付のみを取得
-
-  var loop = Math.floor((endOfMonth.getDate() - endOfMonth.getDay() + 12 ) / 7); //当月末の情報から今月が何週間あるか取得
-
-
-  // var daysTable = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
-  // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
-  //   daysTable[1] = 29;
-  // }
-  var a = 1;
-
-  new Vue({
-    el: '#calendar',
-    data: {
-      year: year,
-      month: month,
-      month_eng: month_eng,
-      weekList: ['日','月','火','水','木','金','土'],
-      daysTable: [
-        {"date":"2018-10-01","image1":"0","image2":"0"},
-        {"date":"2018-10-02","image1":"1","image2":"0"},
-        {"date":"2018-10-03","image1":"0","image2":"0"},
-        {"date":"2018-10-04","image1":"0","image2":"0"},
-        {"date":"2018-10-05","image1":"0","image2":"0"},
-        {"date":"2018-10-06","image1":"0","image2":"4"},
-        {"date":"2018-10-07","image1":"0","image2":"5"},
-        {"date":"2018-10-08","image1":"0","image2":"0"},
-        {"date":"2018-10-09","image1":"1","image2":"0"},
-        {"date":"2018-10-10","image1":"1","image2":"6"},
-        {"date":"2018-10-11","image1":"0","image2":"0"},
-        {"date":"2018-10-12","image1":"1","image2":"0"},
-        {"date":"2018-10-13","image1":"0","image2":"0"},
-        {"date":"2018-10-14","image1":"0","image2":"0"},
-        {"date":"2018-10-15","image1":"0","image2":"0"},
-        {"date":"2018-10-16","image1":"0","image2":"0"},
-        {"date":"2018-10-17","image1":"0","image2":"0"},
-        {"date":"2018-10-18","image1":"0","image2":"4"},
-        {"date":"2018-10-19","image1":"1","image2":"5"},
-        {"date":"2018-10-20","image1":"1","image2":"6"},
-        {"date":"2018-10-21","image1":"0","image2":"0"},
-        {"date":"2018-10-22","image1":"1","image2":"0"},
-        {"date":"2018-10-23","image1":"0","image2":"0"},
-        {"date":"2018-10-24","image1":"0","image2":"0"},
-        {"date":"2018-10-25","image1":"0","image2":"0"},
-        {"date":"2018-10-26","image1":"0","image2":"0"},
-        {"date":"2018-10-27","image1":"0","image2":"0"},
-        {"date":"2018-10-28","image1":"0","image2":"0"},
-        {"date":"2018-10-29","image1":"1","image2":"0"},
-        {"date":"2018-10-30","image1":"1","image2":"4"},
-        {"date":"2018-10-31","image1":"0","image2":"5"}],
-        week:['1','2','3','4','5','6'],
+    new Vue({
+      el: '#js-calendar',
+      data: {
+        year:year,
+        month:month,
+        weekList: ['日','月','火','水','木','金','土'],
+        list: row,
+        daysTable:[
+          {"date":"2018-10-01","image1":"0","image2":"0"},
+          {"date":"2018-10-02","image1":"1","image2":"0"},
+          {"date":"2018-10-03","image1":"0","image2":"0"},
+          {"date":"2018-10-04","image1":"0","image2":"0"},
+          {"date":"2018-10-05","image1":"0","image2":"0"},
+          {"date":"2018-10-06","image1":"0","image2":"4"},
+          {"date":"2018-10-07","image1":"0","image2":"5"},
+          {"date":"2018-10-08","image1":"0","image2":"0"},
+          {"date":"2018-10-09","image1":"1","image2":"0"},
+          {"date":"2018-10-10","image1":"1","image2":"6"},
+          {"date":"2018-10-11","image1":"0","image2":"0"},
+          {"date":"2018-10-12","image1":"1","image2":"0"},
+          {"date":"2018-10-13","image1":"0","image2":"0"},
+          {"date":"2018-10-14","image1":"0","image2":"0"},
+          {"date":"2018-10-15","image1":"0","image2":"0"},
+          {"date":"2018-10-16","image1":"0","image2":"0"},
+          {"date":"2018-10-17","image1":"0","image2":"0"},
+          {"date":"2018-10-18","image1":"0","image2":"4"},
+          {"date":"2018-10-19","image1":"1","image2":"5"},
+          {"date":"2018-10-20","image1":"1","image2":"6"},
+          {"date":"2018-10-21","image1":"0","image2":"0"},
+          {"date":"2018-10-22","image1":"1","image2":"0"},
+          {"date":"2018-10-23","image1":"0","image2":"0"},
+          {"date":"2018-10-24","image1":"0","image2":"0"},
+          {"date":"2018-10-25","image1":"0","image2":"0"},
+          {"date":"2018-10-26","image1":"0","image2":"0"},
+          {"date":"2018-10-27","image1":"0","image2":"0"},
+          {"date":"2018-10-28","image1":"0","image2":"0"},
+          {"date":"2018-10-29","image1":"1","image2":"0"},
+          {"date":"2018-10-30","image1":"1","image2":"4"},
+          {"date":"2018-10-31","image1":"0","image2":"5"}],
       },
-      methods:{
+      methods: {
+        // shift:function(val){
+        //   if('back' == val){
+        //     this.month = (this.month === 1)?12:this.month - 1;
+        //     this.year = (this.month === 12)?this.year - 1:this.year;
+        //   }else{
+        //     this.month = (this.month === 12)?1:this.month + 1;
+        //     this.year = (this.month === 12)?this.year + 1:this.year;
+        //   }
+        //   this.list = updateRow(this.year,this.month);
+        // },
+        padLeft:function(val){
+          return padLeft(val);
+        },
         calDate: function(day){
           var d = day.substr(-2);
           var zero = '0';
@@ -111,171 +308,90 @@
           }
           return d;
         },
-        tdContent: function(day, date, week){
-          var d = date.substr(-2);
-          var zero = '0';
-          if(!d.indexOf(zero)){
-            var d = d.substr(1);
+        calImg: function(img1, img2){
+          if(img1 == 0 && img2 == 0){
+            var d;
+          } else if(img1 >= 0 && img2 == 0){
+            var d = "<span>img"+img1+"</span>"
+          } else if(img1 == 0 && img2 >= 0){
+            var d = "<span>img"+img2+"</span>"
+          } else if(img1 >= 0 && img2 >= 0){
+            var d = "<span>img"+img1+"</span> <span>img"+img2+"</span>"
           }
-          var dNumber = Number(d);
-          var addWeek = day + week + 6 * week;
-          var adjust = (7 * week) - startDay;
-
-          if (day <= 6 && week == 0) {
-            return dNumber
-          } else if (addWeek <= 13 && week == 1) {
-            return dNumber + adjust
-          } else if (addWeek <= 20 && week == 2) {
-            return dNumber + adjust
-          } else if (addWeek <= 27 && week == 3) {
-            return dNumber + adjust
-          } else if (addWeek <= 30 && week == 4) {
-            return dNumber + adjust
-          } else {
-            return false
-          }
-          // return a++
+          return d;
         },
-        tdLastDate: function(day){
-          // var eom = endOfMonth.getDate();
-          // var loop = Math.floor((today.getDate() - today.getDay() + 12 ) / 7);
-
-          if (day <= loop) {
-            return true
-          } else {
-            return false
-          }
-        },
-        tdCount: function(day, week, date){
-          var addWeek = day + week + 6 * week;
-
-          if (day <= 6 && week == 0) {
-            return true
-          } else if (addWeek <= 13 && week == 1) {
-            return true
-          } else if (addWeek <= 20 && week == 2) {
-            return true
-          } else if (addWeek <= 27 && week == 3) {
-            return true
-          } else if (addWeek <= 30 && week == 4) {
-            return true
-          } else {
-            return false
-          }
-        },
-      },
-      month: {
-        month: month,
-      },
+      }
     });
 
+
+    /** 年月からカレンダーの開始日を取得 */
+    function getStartDate(year,month){
+      //月の開始日を取得
+      var date = new Date(year + '/' + month + '/' + '01');
+      // console.log("月の開始日" + date);
+      //曜日を取得
+      var day = date.getDay();
+      // console.log("月の開始日の曜日" + day);
+      //カレンダーの開始日が日曜日になるようにするため、
+      //月の開始日から曜日値を引く
+      date.setDate(date.getDate() - day);
+      // console.log(date);
+      return date;
+    }
+
+    /** 日付リストを生成 */
+    function createRow(date,targetMonth){
+      // console.log(date);
+      var row = [];
+      for(var i=0;i<42;i++){
+        // console.log(date.getDate());
+        row.push({
+          date:date.getDate(),
+          // anniv:getAnniversary(padLeft(date.getMonth()+1) + padLeft(date.getDate())),
+          // six:'大安',
+          isNotThisMonth: date.getMonth()+1 != targetMonth,
+        });
+        date.setDate(date.getDate() + 1);
+      }
+      return row;
+    }
+
+    // /** 指定した年月で画面更新 */
+    // function updateRow(year,month){
+    //   //カレンダーの開始日を取得
+    //   var startDate = getStartDate(year,padLeft(month));
+    //   var row = createRow(startDate,month);
+    //   return row;
+    // }
+
+    /** 2桁になるように左ゼロ埋め */
+    function padLeft(val){
+      return ( '00'  + val ).slice( -2 );
+    }
+
+
+    /** 年月からカレンダーの開始日を取得 */
     $(function(){
-      var otw = $('.tr-' + [loop - 1] + ' td:last-child').text();
-      otw = Number(otw);
-      var dayAppend = eom - otw;
+      //月の開始日を取得
+      var date = new Date(year + '/' + month + '/' + '01');
+      // console.log("月の開始日" + date);
+      //曜日を取得
+      var day = date.getDay();
+      // console.log("月の開始日の曜日" + day);
+      //カレンダーの開始日が日曜日になるようにするため、
+      //月の開始日から曜日値を引く
+      date.setDate(date.getDate() - day);
 
-      if (loop == 6  ) {
-        for (var i = 0; i < dayAppend; i++) {
-          if ($('.tr-5 td').length == 7) {
-            return false
-          } else {
-            $('.tr-5').append('<td>' + [otw + i + 1] + '</td>');
-          }
-        }
+      for (var i = 0; i < day; i++) {
+        $('#js-date').prepend('<div class="dayBox"><p class="days">'+ [date.getDate()+i] +'</p></div>');
       }
+
+      var db = $('#js-date .dayBox').length;
+      console.log('現在表示されている日付の数(42個中)：' + db);
+
     });
 
 
-    $(function(){
-      var otw_2 = $('.tr-' + [loop - 1] + ' td:last-child').text();
-      otw_2 = Number(otw_2);
-      console.log('otw_2: ' + otw_2);
-
-      var dayAppend_2 = eom - otw_2;
-      if (loop == 6) {
-        for (var i = 0; i < dayAppend_2; i++) {
-          if ($('.tr-6 td').length == 7) {
-            return false
-          } else {
-            $('.tr-6').append('<td>' + [otw_2 + i + 1] + '</td>');
-          }
-        }
-      }
-
-
-
-
-      var s;
-      var e;
-      // var l = loop + 1;//今月の週の数の調整
-      var c = $('.tr-' + loop + ' td').length;//最終週にいくつtdがあるか確認
-
-      console.log('loop: '+loop);
-      console.log('c: '+c);
-      // var eq = $('.tr-1 td:eq(' + n + ')');
-
-      for (var i = 0; i < startDay; i++) {
-        $('.tr-1').prepend('<td></td>'); //月初初日までに空いている部分をtdで埋める
-
-        if (startDay == 1) { //月初初日の開始位置がnの場合、sにはみ出たtdの位置の値を代入し、startDaySetを実行
-          s = i + 7;
-          startDaySet(s);
-        } else if (startDay == 2) {
-          s = i + 6;
-          startDaySet(s);
-        } else if (startDay == 3) {
-          s = i + 5;
-          startDaySet(s);
-        } else if (startDay == 4) {
-          s = i + 4;
-          startDaySet(s);
-        } else if (startDay == 5) {
-          s =  i + 3;
-          startDaySet(s);
-        } else if (startDay == 6) {
-          s = i + 2;
-          startDaySet(s);
-        }
-      }
-
-      if (c == 1) { //最終週のtdがn個の場合eに埋めるのに必要な個数分の値を代入し、endDaySetを実行
-        e = 6;
-        endDaySet(e);
-      } else if (c == 2) {
-        e = 5;
-        endDaySet(e);
-      } else if (c == 3) {
-        e = 4;
-        endDaySet(e);
-      } else if (c == 4) {
-        e = 3;
-        endDaySet(e);
-      } else if (c == 5) {
-        e = 2;
-        endDaySet(e);
-      } else if (c == 6) {
-        e = 1;
-        endDaySet(e);
-      }
-
-      function startDaySet(n){
-        $('.tr-1 td:eq(' + n + ')').remove(); //はみ出たtdの位置のtdを削除、これはstartDayの値だけ繰り返す
-      }
-
-      function endDaySet(e){ //最終週をtdで埋めるのをeにの回数分繰り返す
-        console.log("month: " + month);
-        for (var i = 0; i < e; i++) {
-          // if (i == 0 ){  //&& month == 2 || i == 0 && month == 3 || i == 0 && month == 5 || i == 0 && month == 7 || i == 0 && month == 8 || i == 0 && month == 10 || i == 0 && month == 12) {
-            // $('.tr-' + loop ).append('<td>'+ eom +'</td>'); //月末最終日が欠けているので、補填する
-          // } else {
-            $('.tr-' + loop ).append('<td></td>'); //空のtdで埋める
-          // }
-        }
-      }
-
-    });
   </script>
-
-
 </body>
 </html>
