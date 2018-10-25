@@ -21,9 +21,6 @@
           </tr>
         </thead>
         <tbody>
-          <!-- <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)" v-bind:class="['tr-' + [key1 + 1]]">
-            <td v-for="(days, key2) in daysTable" v-html="tdContent(key2, days.date)" v-if="tdCount(key2)"></td>
-          </tr> -->
           <tr v-for="(item, key1) in week" v-if="tdLastDate(key1)" v-bind:class="['tr-' + [key1 + 1]]">
             <td v-for="(days, key2) in daysTable" v-if="tdCount(key2, key1, days.date)" v-html="tdContent(key2, days.date, key1)"></td>
           </tr>
@@ -31,45 +28,46 @@
       </table>
     </div><!-- #calendar -->
   </main>
+
   <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script>
 
-    //当月を取得
-    var today = new Date();
-    var year = today.getFullYear();
-    var month = today.getMonth()+ 1;
-    var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
-    var month_eng = month_eng_list[month - 1];
+  //当月を取得
+  var today = new Date("2018/8/01");
+  var year = today.getFullYear();
+  var month = today.getMonth()+ 1;
+  var month_eng_list = ['January','February.','March','April','May','June','July','August','September','October','November','December'];
+  var month_eng = month_eng_list[month - 1];
 
-    // var now = new Date();
-    var startDay = today.setDate(1); //今月の初日を取得
-        startDay = today.getDay(); //今月の1日が何曜日か0〜6で取得
-        console.log('startDay: ' + startDay);
+  // var now = new Date();
+  var startDay = today.setDate(1); //今月の初日を取得
+  startDay = today.getDay(); //今月の1日が何曜日か0〜6で取得
+  console.log('startDay: ' + startDay);
 
-    var endOfMonth = new Date(year, month, 0); //当月末を取得
-    var eom = endOfMonth.getDate(); //当月末の日付のみを取得
+  var endOfMonth = new Date(year, month, 0); //当月末を取得
+  var eom = endOfMonth.getDate(); //当月末の日付のみを取得
 
-    var loop = Math.floor((endOfMonth.getDate() - endOfMonth.getDay() + 12 ) / 7); //当月末の情報から今月が何週間あるか取得
+  var loop = Math.floor((endOfMonth.getDate() - endOfMonth.getDay() + 12 ) / 7); //当月末の情報から今月が何週間あるか取得
 
 
-    // var daysTable = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
-    // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
-    //   daysTable[1] = 29;
-    // }
-    var a = 1;
+  // var daysTable = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+  // if (((year%4)==0 && (year%100)!=0) || (year%400)==0){
+  //   daysTable[1] = 29;
+  // }
+  var a = 1;
 
-    new Vue({
-      el: '#calendar',
-      data: {
-        year: year,
-        month: month,
-        month_eng: month_eng,
-        weekList: ['日','月','火','水','木','金','土'],
-        daysTable: [
+  new Vue({
+    el: '#calendar',
+    data: {
+      year: year,
+      month: month,
+      month_eng: month_eng,
+      weekList: ['日','月','火','水','木','金','土'],
+      daysTable: [
         {"date":"2018-10-01","image1":"0","image2":"0"},
         {"date":"2018-10-02","image1":"1","image2":"0"},
         {"date":"2018-10-03","image1":"0","image2":"0"},
@@ -116,23 +114,23 @@
         tdContent: function(day, date, week){
           var d = date.substr(-2);
           var zero = '0';
-
           if(!d.indexOf(zero)){
             var d = d.substr(1);
           }
           var dNumber = Number(d);
           var addWeek = day + week + 6 * week;
+          var adjust = (7 * week) - startDay;
 
           if (day <= 6 && week == 0) {
             return dNumber
           } else if (addWeek <= 13 && week == 1) {
-            return dNumber + 6
+            return dNumber + adjust
           } else if (addWeek <= 20 && week == 2) {
-            return dNumber + 13
+            return dNumber + adjust
           } else if (addWeek <= 27 && week == 3) {
-            return dNumber + 20
+            return dNumber + adjust
           } else if (addWeek <= 30 && week == 4) {
-            return dNumber + 27
+            return dNumber + adjust
           } else {
             return false
           }
@@ -171,37 +169,73 @@
       },
     });
 
-  $(function(){
-    var s;
-    var e;
-    // var l = loop + 1;//今月の週の数の調整
-    var c = $('.tr-' + loop + ' td').length;//最終週にいくつtdがあるか確認
+    $(function(){
+      var otw = $('.tr-' + [loop - 1] + ' td:last-child').text();
+      otw = Number(otw);
+      var dayAppend = eom - otw;
 
-    console.log('loop: '+loop);
-    console.log('c: '+c);
-    // var eq = $('.tr-1 td:eq(' + n + ')');
+      if (loop == 6  ) {
+        for (var i = 0; i < dayAppend; i++) {
+          if ($('.tr-5 td').length == 7) {
+            return false
+          } else {
+            $('.tr-5').append('<td>' + [otw + i + 1] + '</td>');
+          }
+        }
+      }
+    });
 
-    for (var i = 0; i < startDay; i++) {
-      $('.tr-1').prepend('<td></td>'); //月初初日までに空いている部分をtdで埋める
 
-      if (startDay == 1) { //月初初日の開始位置がnの場合、sにはみ出たtdの位置の値を代入し、startDaySetを実行
-        s = i + 7;
-        startDaySet(s);
-      } else if (startDay == 2) {
-        s = i + 6;
-        startDaySet(s);
-      } else if (startDay == 3) {
-        s = i + 5;
-        startDaySet(s);
-      } else if (startDay == 4) {
-        s = i + 4;
-        startDaySet(s);
-      } else if (startDay == 5) {
-        s =  i + 3;
-        startDaySet(s);
-      } else if (startDay == 6) {
-        s = i + 2;
-        startDaySet(s);
+    $(function(){
+      var otw_2 = $('.tr-' + [loop - 1] + ' td:last-child').text();
+      otw_2 = Number(otw_2);
+      console.log('otw_2: ' + otw_2);
+
+      var dayAppend_2 = eom - otw_2;
+      if (loop == 6) {
+        for (var i = 0; i < dayAppend_2; i++) {
+          if ($('.tr-6 td').length == 7) {
+            return false
+          } else {
+            $('.tr-6').append('<td>' + [otw_2 + i + 1] + '</td>');
+          }
+        }
+      }
+
+
+
+
+      var s;
+      var e;
+      // var l = loop + 1;//今月の週の数の調整
+      var c = $('.tr-' + loop + ' td').length;//最終週にいくつtdがあるか確認
+
+      console.log('loop: '+loop);
+      console.log('c: '+c);
+      // var eq = $('.tr-1 td:eq(' + n + ')');
+
+      for (var i = 0; i < startDay; i++) {
+        $('.tr-1').prepend('<td></td>'); //月初初日までに空いている部分をtdで埋める
+
+        if (startDay == 1) { //月初初日の開始位置がnの場合、sにはみ出たtdの位置の値を代入し、startDaySetを実行
+          s = i + 7;
+          startDaySet(s);
+        } else if (startDay == 2) {
+          s = i + 6;
+          startDaySet(s);
+        } else if (startDay == 3) {
+          s = i + 5;
+          startDaySet(s);
+        } else if (startDay == 4) {
+          s = i + 4;
+          startDaySet(s);
+        } else if (startDay == 5) {
+          s =  i + 3;
+          startDaySet(s);
+        } else if (startDay == 6) {
+          s = i + 2;
+          startDaySet(s);
+        }
       }
 
       if (c == 1) { //最終週のtdがn個の場合eに埋めるのに必要な個数分の値を代入し、endDaySetを実行
@@ -223,23 +257,23 @@
         e = 1;
         endDaySet(e);
       }
-    }
 
-    function startDaySet(n){
-      $('.tr-1 td:eq(' + n + ')').remove(); //はみ出たtdの位置のtdを削除、これはstartDayの値だけ繰り返す
-    }
+      function startDaySet(n){
+        $('.tr-1 td:eq(' + n + ')').remove(); //はみ出たtdの位置のtdを削除、これはstartDayの値だけ繰り返す
+      }
 
-    function endDaySet(e){ //最終週をtdで埋めるのをeにの回数分繰り返す
-      for (var i = 0; i < e; i++) {
-        if (i == 0) {
-          $('.tr-' + loop ).append('<td>'+ eom +'</td>'); //月末最終日が欠けているので、補填する
-        } else {
-          $('.tr-' + loop ).append('<td></td>'); //空のtdで埋める
+      function endDaySet(e){ //最終週をtdで埋めるのをeにの回数分繰り返す
+        console.log("month: " + month);
+        for (var i = 0; i < e; i++) {
+          // if (i == 0 ){  //&& month == 2 || i == 0 && month == 3 || i == 0 && month == 5 || i == 0 && month == 7 || i == 0 && month == 8 || i == 0 && month == 10 || i == 0 && month == 12) {
+            // $('.tr-' + loop ).append('<td>'+ eom +'</td>'); //月末最終日が欠けているので、補填する
+          // } else {
+            $('.tr-' + loop ).append('<td></td>'); //空のtdで埋める
+          // }
         }
       }
-    }
 
-  });
+    });
   </script>
 
 
