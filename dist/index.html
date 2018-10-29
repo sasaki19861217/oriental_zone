@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <div id="js-calendar">
+  <section id="kotobuki_calendar-section">
     <div id="calendar"></div>
 
     <div class="kotobuki-cal__wrap">
@@ -23,13 +23,14 @@
       <div id="js-date" class="kotobuki-cal__body kotobuki-cal__flex">
         <div class="kotobuki-cal__dayBox" v-for="date in daysTable">
           <p class="kotobuki-cal__days" v-html="calDate(date.date)" v-bind:class="['cal-zone__' + date.image1]"></p>
+          <p class="kotobuki-cal__image" v-html="calIcon(date.image1)"></p>
           <p class="kotobuki-cal__image" v-html="calImg(date.image1, date.image2)"></p>
         </div>
       </div>
     </div>
 
 
-  </div><!-- #calendar -->
+  </section><!-- #calendar -->
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="https://code.jquery.com/jquery-3.0.0.js"></script>
   <script src="https://code.jquery.com/jquery-migrate-3.0.0.js"></script>
@@ -44,7 +45,7 @@
   var daysData = $('#calendar').data('caldata');
 
   new Vue({
-    el: '#js-calendar',
+    el: '#kotobuki_calendar-section',
     data: {
       year:year,
       month:month,
@@ -92,16 +93,24 @@
           }
           return d;
         },
+        calIcon: function(img1){
+          if(img1 == 0 || img1 == 2){
+            var d = '<span style="visibility: hidden;">'+ img1 +'</span>';
+          } else if (img1 == 1 || img1 == 3) {
+            var d = '<span style=""><img src="http://oriental.cocoloni.jp/image/kotobuki/icon/calendar_kotobuki_icon'+ img1 +'.sp.480.png" alt="" /></span>'
+          }
+          return d;
+        },
         calImg: function(img1, img2){
-          var d = '<span style="visibility: hidden;">'+ img2 +'</span>';//image2のロジックが修正されたら消す
+          // var d = '<span style="visibility: hidden;">'+ img2 +'</span>';//image2のロジックが修正されたら消す
           //以下の9行はアイコン表示用のため、ロジックが修正されたら
           //コメントアウト解除
           // if(img2 == 0){
           //   var d = '<span style="visibility: hidden;">'+ img2 +'</span>';
           // } else if(img2 >= 0){
-          //   var d = '<span style="visibility: hidden;"><img src="http://oriental.cocoloni.jp/image/kotobuki/icon/calendar_icon_'+ img2 +'.sp.480.png" alt="" /></span>'
+          //   var d = '<span style=""><img src="http://oriental.cocoloni.jp/image/kotobuki/icon/calendar_icon_'+ img2 +'.sp.480.png" alt="" /></span>'
           // }
-          return d;
+          // return d;
         },
       }
     });

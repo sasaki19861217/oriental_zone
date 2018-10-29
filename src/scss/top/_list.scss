@@ -30,6 +30,15 @@
   }
 }
 
+ul{
+  padding: 0;
+  &.kobetsu-list-boost{
+    li{
+      padding-bottom:20px;
+    }
+  }
+}
+
 .kotobuki-basic__list{
   ul.list-group li{
     a{

@@ -1,5 +1,7 @@
+[class^="m-kobetsu-kotobuki"] header,
 [class^="m-kotobuki"] header {
   background-color: #FE7B81; }
+  [class^="m-kobetsu-kotobuki"] header .brand a,
   [class^="m-kotobuki"] header .brand a {
     background-image: url("/image/kotobuki/header_logo.sp.480.png");
     background-size: contain;
@@ -30,6 +32,11 @@
     background-image: url("/image/kotobuki/cbword3.sp.480.png"); }
   .kotobuki-banner.kotobuki-banner__kobetsu::after {
     background-image: url("/image/kotobuki/cbword2.sp.480.png"); }
+
+ul {
+  padding: 0; }
+  ul.kobetsu-list-boost li {
+    padding-bottom: 20px; }
 
 .kotobuki-basic__list ul.list-group li a::before {
   content: none; }
@@ -78,7 +85,7 @@
 
 .kotobuki-cal__days {
   margin: 0;
-  padding: 2px; }
+  padding: 0px; }
 
 .cal-zone__1 {
   background-color: #F577C9;
@@ -115,20 +122,44 @@
 
 .kotobuki-cal__image {
   margin: 0;
-  padding: 2px;
-  height: 35px; }
+  padding: 1px;
+  height: 22px; }
   .kotobuki-cal__image span {
     display: inline-block; }
   .kotobuki-cal__image img {
     width: 20px;
     display: inline-block;
-    padding: 1px;
-    position: relative;
-    top: 3px; }
-    @media screen and (max-width: 375px) {
-      .kotobuki-cal__image img {
-        width: 17px; } }
+    padding: 1px; }
 
+.kotobuki-intro {
+  margin: 12px 0; }
+  .kotobuki-intro h1 {
+    font-size: 22px;
+    text-align: -webkit-center; }
+
+.kotobuki-icon__info {
+  background-color: #fff;
+  padding: 12px 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px; }
+  .kotobuki-icon__info .zone,
+  .kotobuki-icon__info .w-zone {
+    display: inline-block;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    padding: 6px;
+    margin-right: 4px; }
+  .kotobuki-icon__info span.zone {
+    background-color: #F577C9; }
+  .kotobuki-icon__info span.w-zone {
+    background-color: #FD0013; }
+  .kotobuki-icon__info img {
+    width: 20px;
+    display: inline-block;
+    margin: 2px 6px 8px 2px; }
+
+[class^="m-kobetsu-kotobuki"] body,
 [class^="m-kotobuki"] body {
   background-image: url(/image/kotobuki/bg.sp.480.png);
   background-size: 18.2%; }

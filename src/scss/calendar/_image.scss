@@ -1,20 +1,15 @@
 .kotobuki-cal__{
   &image {
     margin: 0;
-    padding: 2px;
-    height: 35px;
+    padding: 1px;
+    height: 22px;
     span{
       display: inline-block;
     }
     img {
       width: 20px;
-      @media screen and (max-width:375px){
-        width: 17px;
-      }
       display: inline-block;
       padding: 1px;
-      position: relative;
-      top: 3px;
     }
   }//image
 

@@ -1,0 +1,38 @@
+.kotobuki-intro {
+    margin: 12px 0;
+
+    h1 {
+        font-size: 22px;
+        text-align: -webkit-center;
+    }
+}
+
+.kotobuki-icon__info {
+  background-color: #fff;
+  padding: 12px 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  .zone,
+  .w-zone{
+    display:inline-block;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    padding: 6px;
+    margin-right: 4px;
+  }
+
+  span.zone {
+    background-color: #F577C9;
+  }
+  span.w-zone {
+    background-color: #FD0013;
+  }
+
+  img {
+    width: 20px;
+    display: inline-block;
+    margin: 2px 6px 8px 2px;
+  }
+}

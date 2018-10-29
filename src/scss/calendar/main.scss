@@ -28,7 +28,7 @@
 
   &days {
     margin: 0;
-    padding: 2px;
+    padding: 0px;
   }//days
 }
 
@@ -41,5 +41,6 @@
   color: #fff;
 }
 
-@import "_default.scss";
-@import "_image.scss";
+@import "_default";
+@import "_image";
+@import "_info"
