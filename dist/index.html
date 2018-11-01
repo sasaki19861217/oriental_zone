@@ -12,6 +12,10 @@
     <div id="calendar"></div>
 
     <div class="kotobuki-cal__wrap">
+      <div class="">
+        {{month_eng}}
+      </div>
+      <div>{{month}}月</div>
       <div v-cloak class="kotobuki-cal__flex">
         <!-- 曜日 -->
         <div class="kotobuki-cal__weekList" v-for="date in weekList">
@@ -28,7 +32,6 @@
         </div>
       </div>
     </div>
-
 
   </section><!-- #calendar -->
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -49,6 +52,7 @@
     data: {
       year:year,
       month:month,
+      month_eng:month_eng,
       weekList: ['日','月','火','水','木','金','土'],
       daysTable:[
         {"date":"2018-10-01","image1":"0","image2":"0"},

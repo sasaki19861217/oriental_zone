@@ -1,53 +1,27 @@
 <!--INC_F'template_head.txt'-->
-<link rel="stylesheet" href="/css/cal.css">
+<section id="kotobuki_intro-section" class="kotobuki-intro">
+  <h1>寿ゾーンとは？</h1>
+  <p class="kotobuki-intro__item">
+    あなたの結婚に最適な時期や運命の相手に出会える可能性が高まるのが寿ゾーンです。
+  </p>
+</section>
 
-
-<h2 class="kotobuki-banner kotobuki-banner__cal"></h2>
-
-<!--INC_F'kotobuki_calendar_test.txt'-->
-
-<!--INC_F'kotobuki_calendar.txt'-->
-
-  <!--カレンダー機能 Ajaxで動くよ-->
-  <section id="kotobuki_calendar-section">
-    <div id="calendar"></div>
-  </section>
-
-<script>
-function toMoment(yyyymmdd){
-  yyyymmdd = yyyymmdd.replace(/-/g,'');
-  var yyyy = yyyymmdd.substr(0,4);
-  var mm   = yyyymmdd.substr(4,2);
-  var dd   = yyyymmdd.substr(6,2);
-  var yyyy_mm_dd = yyyy + "-" + mm + "-" + dd;
-  return yyyy_mm_dd;
-}
-var calendar_start_date = "[%calendar_start_date||tdate||date%]"; // YYYYMMDD
-var flag_next1 = "[%flag_next1%]"; // 来月購入済み=1
-var flag_next2 = "[%flag_next2%]"; // 再来月購入済み=1
-var date_next1 = "[%date_next1%]"; // 来月の日付 YYYYMMDD
-var date_next2 = "[%date_next2%]"; // 再来月の日付 YYYYMMDD
-var package_next1 = "[%package_next1%]"; // 来月のパッケージID
-var package_next2 = "[%package_next2%]"; // 再来月のパッケージID
-var calendar_prev_date = "[%calendar_prev_date%]"; // 前月 YYYYMMDD
-var calendar_next_date = "[%calendar_next_date%]"; // 来月 YYYYMMDD
-
-var calData = [
-  [%FOREACH r IN results %]
-  {
-    "date": "[%r.date%]",
-    "image1": "[%r.image1%]",
-    "image2": "[%r.image2%]",
-  }[%IF !loop.last;',';END%]
-  [%END%]
-]
-  var calendar = $('#calendar');
-  calendar.attr('data-calData', JSON.stringify(calData));
-  var today = new Date();
-  var now = today.getFullYear()+
-      ( "0"+( today.getMonth()+1 ) ).slice(-2)+
-      ( "0"+today.getDate() ).slice(-2);
-</script>
+<!--カレンダー機能 Ajaxで動くよ-->
+<section id="kotobuki_calendar-section">
+  <h2 class="kotobuki-banner kotobuki-banner__cal"></h2>
+  <div id="calendar"></div>
+  <!--INC_F'kotobuki_calendar.txt'-->
+  <!--★INC_F'kotobuki_calendar_test.txt'-->
+  <div class="kotobuki-icon__info">
+    <p><span class="zone">寿ゾーン</span><span>…恋愛＆結婚の縁が生まれやすい時期です。</span></p>
+    <p><span class="w-zone">W寿ゾーン</span><span>…月の寿ゾーンと日の寿ゾーンが重なりさらに強力に強力に作用する時期です。</span></p>
+    <!--
+    <p><img src="/image/kotobuki/icon/calendar_icon_1.sp.480.png" alt="発展運の日">…発展運の日。拡大と発展のある運気。</p>
+    <p><img src="/image/kotobuki/icon/calendar_icon_2.sp.480.png" alt="トラブル運の日">…トラブル運の日。かみ合わないことが多い運気。</p>
+    <p><img src="/image/kotobuki/icon/calendar_icon_3.sp.480.png" alt="引力運の日">…引力運の日。人との縁が結ばれやすい日。</p>
+    -->
+  </div>
+</section>
 
   <!--基本占断機能-->
   <section id="kotobuki_uranai-section">
@@ -59,11 +33,6 @@ var calData = [
         <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9003&<!--DEF_P-->">寿キャラで占うあなたの運命の人</a></li>
         <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9004&<!--DEF_P-->">寿キャラで占うあの人の基本性格</a></li>
         <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9005&<!--DEF_P-->">寿キャラで占うあの人の恋愛と結婚</a></li>
-        <!-- <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9001"><CTAG mode="menu" type="name" id="9001"></a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9002"><CTAG mode="menu" type="name" id="9002"></a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9003"><CTAG mode="menu" type="name" id="9003"></a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9004"><CTAG mode="menu" type="name" id="9004"></a></li>
-        <li class="list-group-item"><a href="/t.cgi?t=m/kotobuki/basic/result&menu_id=9005"><CTAG mode="menu" type="name" id="9005"></a></li> -->
       </ul>
     </div>
     <div class="cc-btn-active">
@@ -71,7 +40,7 @@ var calData = [
     </div>
   </section>
 
-<h2 class="kotobuki-banner kotobuki-banner__basic">寿特別鑑定</h2>
+<h2 class="kotobuki-banner kotobuki-banner__basic"></h2>
   <!--個別課金 寿ゾーン package_id:3000番代-->
   <section id="kotobuki_kobetsu-section">
     <div>
@@ -79,6 +48,8 @@ var calData = [
     </div>
   </section>
 
-<h2><a href="/t.cgi?t=m/kobetsu/kotobuki/list&<!--DEF_P-->">個別課金リスト</a></h2>
+  <div class="cc-btn-active">
+    <a href="/t.cgi?t=m/kobetsu/kotobuki/list&<!--DEF_P-->">個別課金リスト</a>
+  </div>
 
 <!--INC_F'template_foot.txt'-->
