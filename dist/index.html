@@ -146,13 +146,17 @@
       date.setDate(date.getDate() - day);
       var lastMonth = [];
       if (day != 0) {
-        $('#js-date').prepend('<span class="reverse"></span>')
         for (var i = 0; i < day; i++) {
           lastMonth.push(date.getDate()+i);
-          $('#js-date').prepend('<div class="kotobuki-cal__dayBox kotobuki-cal__lastMonth"><p class="kotobuki-cal__days">' + lastMonth[i] + '</p></div>');
-          $(".reverse").html($(".kotobuki-cal__dayBox.kotobuki-cal__lastMonth").get().reverse());
-        }
-      }
+
+          if(lastMonth.length == day){
+            var lastMonth = lastMonth.reverse();
+            for (var i = 0; i < day; i++) {
+              $('#js-date').prepend('<div class="kotobuki-cal__dayBox kotobuki-cal__lastMonth"><p class="kotobuki-cal__days">' + lastMonth[i] + '</p></div>');
+            }
+          } //if(lastMonth.length == day)
+        } //for (var i = 0; i < day; i++)
+      } //if (day != 0)
 
       var db = $('#js-date .kotobuki-cal__dayBox').length;
       // 月末日以降の空きを来月の月初で埋める
